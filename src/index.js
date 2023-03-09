@@ -1,5 +1,6 @@
 import Todo from "./todos";
 import Project from "./projects";
+import "./styles/style.scss";
 
 const a0 = new Todo("0", "3/12/2023");
 const a1 = new Todo("1", "3/12/2023");
