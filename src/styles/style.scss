@@ -2,21 +2,38 @@
   font-family: lato;
   src: url("../fonts/Lato-Black.ttf");
 }
+$main-color: #3569da;
+$secondary-color: #f8be60;
+$main-gradient: linear-gradient(135deg, $main-color, $secondary-color);
+button {
+  transition: all 0.2s;
+}
+button:hover {
+  background: $main-gradient;
+  box-shadow: 1px 1px 5px rgba($color: $main-color, $alpha: 0.5);
+}
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
   font-family: lato;
+  position: relative;
 }
 .content {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 3fr;
+  position: relative;
 }
 
 .projectDisplay {
   display: flex;
+  box-sizing: border-box;
   border: 1px solid red;
+  min-height: 100vh;
   flex-direction: column;
+  background: $main-gradient;
+  background-repeat: no-repeat;
   .project {
     display: flex;
     flex-direction: column;
@@ -31,14 +48,15 @@ body {
       border-bottom: 1px solid black;
     }
     .projectDueDate {
-      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
     }
     .toDos {
       font-size: 1rem;
       width: 100%;
       display: flex;
       flex-direction: column;
-      border: 1px dashed green;
       .title {
         font-size: 1.5rem;
       }
@@ -49,7 +67,109 @@ body {
         display: flex;
         flex-direction: column;
         border: 1px solid black;
+        position: relative;
+        button {
+        }
       }
     }
   }
+}
+.sideBar {
+  // background-color: lightblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h2 {
+    font-size: 2rem;
+    border-bottom: 1px solid black;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 25px;
+    margin-bottom: 15px;
+  }
+  #addProjectButton {
+    width: 100%;
+    height: 60px;
+    border: none;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+  .projectContainer {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    .projectButton {
+      width: 100%;
+      border: none;
+      height: 50px;
+    }
+  }
+}
+.modal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+  .projectFormContainer {
+    position: absolute;
+    top: 5%;
+    bottom: 5%;
+    left: 30%;
+    right: 5%;
+    background: $main-gradient;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h1 {
+      text-align: center;
+    }
+    input {
+      height: 30px;
+    }
+    ul {
+      margin-top: 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+      gap: 35px;
+      list-style: none;
+      padding: 0;
+      li {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+    .projectFormAddToDoButton {
+      background-color: #3569da;
+      color: white;
+    }
+    .closeProjectFormButton {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+    }
+    .inputContainer {
+    }
+  }
+}
+.active {
+  display: block;
+  z-index: 999;
+}
+.inactive {
+  display: none;
+}
+
+.isBlurred {
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
 }

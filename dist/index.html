@@ -8,9 +8,12 @@
   </head>
   <body>
     <div class="content">
-      <div class="sidebar">
-        <div class="projectContainer"></div>
-        <button class="addProject">Add Project</button>
+      <div class="sideBar">
+        <h2>Projects</h2>
+        <div class="projectContainer">
+          <button class="projectButton">Project</button>
+        </div>
+        <button id="addProjectButton">Add Project</button>
       </div>
       <div class="projectDisplay">
         <div class="project">
@@ -39,30 +42,25 @@
             </div>
           </div>
         </div>
-        <div class="project">
-          <p class="name">name</p>
-          <p class="projectDueDate">due date</p>
-          <div class="toDos">
-            <div class="todo">
-              <p class="title">title</p>
-              <p class="toDoDueDate">due date</p>
-              <p class="description">decription</p>
-              <p class="notes">notes</p>
-            </div>
-            <div class="todo">
-              <p class="title">title</p>
-              <p class="toDoDueDate">due date</p>
-              <p class="description">decription</p>
-              <p class="notes">notes</p>
-            </div>
-            <div class="todo">
-              <p class="title">title</p>
-              <p class="toDoDueDate">due date</p>
-              <p class="description">decription</p>
-              <p class="notes">notes</p>
-            </div>
-          </div>
-        </div>
+      </div>
+    </div>
+    <div class="modal inactive">
+      <div class="projectFormContainer inactive">
+        <button class="closeProjectFormButton">X</button>
+        <h1>Create a new Project</h1>
+        <form id="projectForm" action="">
+          <ul class="formList">
+            <li>
+              <label for="title">Title of Project:</label>
+              <input type="text" id="title" name="title" />
+            </li>
+            <li>
+              <label for="dueDate">Project Due Date:</label>
+              <input type="text" id="dueDate" name="dueDate" />
+            </li>
+          </ul>
+        </form>
+        <button class="projectFormAddToDoButton">Add To Do</button>
       </div>
     </div>
   </body>
