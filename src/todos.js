@@ -1,11 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 export default class Todo {
-  constructor(name, dueDate) {
+  constructor(name, dueDate, priority) {
     this.name = name;
     this.dueDate = dueDate;
+    this._priority = priority;
   }
-
-  _priority = 1;
 
   get description() {
     return this._description;

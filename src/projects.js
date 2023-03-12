@@ -1,8 +1,8 @@
 class Project {
-  constructor(name, dueDate) {
+  constructor(name, dueDate, toDos) {
     this.name = name;
     this.dueDate = dueDate;
-    this.toDos = [];
+    this.toDos = toDos;
   }
 
   addToDo(todo) {

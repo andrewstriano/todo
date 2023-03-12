@@ -1,4 +1,5 @@
 import { projects, Project, addProject } from "./projects";
+import Todo from "./todos";
 
 const mainContainer = document.querySelector(".content");
 const addProjectButton = document.querySelector("#addProjectButton");
@@ -14,8 +15,6 @@ const closeProjectFormButton = document.querySelector(
   ".closeProjectFormButton"
 );
 const submitProjectButton = document.querySelector(".submitProjectButton");
-const projectTitle = document.querySelector("#title");
-const projectDueDate = document.querySelector("#dueDate");
 let formStatus = "inactive";
 
 // functions
@@ -51,13 +50,27 @@ function openToDoInput(event) {
   event.preventDefault();
 
   const inputContainer = document.createElement("li");
-  inputContainer.classList.add("inputContainer");
+  inputContainer.classList.add("toDoGroups");
 
-  const toDoLabel = document.createElement("label");
-  toDoLabel.innerText = 'Enter your "to do":';
+  const toDoTitleLabel = document.createElement("label");
+  toDoTitleLabel.innerText = 'Enter your "to do" title:';
+  const toDoTitle = document.createElement("input");
+  toDoTitle.setAttribute("type", "text");
+  toDoTitle.classList.add("projectFormToDoInput");
 
-  const toDoInput = document.createElement("textarea");
-  toDoInput.classList.add("projectFormToDoInput");
+  const toDoDueDateLabel = document.createElement("label");
+  toDoDueDateLabel.setAttribute("for", "date");
+  toDoDueDateLabel.innerText = "When do you need to do this by?";
+  const toDoDueDate = document.createElement("input");
+  toDoDueDate.setAttribute("type", "date");
+  toDoDueDate.setAttribute("id", "date");
+
+  const toDoPriorityLabel = document.createElement("label");
+  toDoPriorityLabel.setAttribute("for", "priority");
+  toDoPriorityLabel.innerText = "Set priority on a scale of 1-100";
+  const toDoPriority = document.createElement("input");
+  toDoPriority.setAttribute("type", "number");
+  toDoPriority.setAttribute("id", "priority");
 
   const cancelButton = document.createElement("button");
   cancelButton.classList.add("cancelToDoButton");
@@ -65,7 +78,15 @@ function openToDoInput(event) {
   cancelButton.innerText = "Cancel To Do";
   cancelButton.addEventListener("click", cancelToDo);
 
-  inputContainer.append(toDoLabel, toDoInput, cancelButton);
+  inputContainer.append(
+    toDoTitleLabel,
+    toDoTitle,
+    toDoDueDateLabel,
+    toDoDueDate,
+    toDoPriorityLabel,
+    toDoPriority,
+    cancelButton
+  );
   formList.append(inputContainer);
 }
 
@@ -84,20 +105,70 @@ projectFormAddToDoButton.addEventListener("click", openToDoInput);
 
 submitProjectButton.addEventListener("click", createProject);
 
-function createProject() {
-  let name = projectTitle.value;
-  let dueDate = projectDueDate.value;
-  const newProject = new Project(name, dueDate);
-  addProject(newProject);
-  createToDoList();
+function createProject(e) {
+  e.preventDefault();
+  const projectTitle = document.getElementById("title").value;
+  const projectDueDate = document.getElementById("dueDate").value;
+  const groups = document.getElementsByClassName("toDoGroups");
+  const todoParam = [];
+  const toDos = [];
+  for (let index = 0; index < groups.length; index++) {
+    const inputs = groups[index].getElementsByTagName("input");
+    const values = [];
+    for (let j = 0; j < inputs.length; j++) {
+      values.push(inputs[j].value);
+    }
+    toDos.push(values);
+  }
+  toDos.forEach((element) => {
+    const todoObject = new Todo(element[0], element[1], element[2]);
+    todoParam.push(todoObject);
+  });
+
+  const newProject = new Project(projectTitle, projectDueDate, todoParam);
+  projects.push(newProject);
+  console.log(projects[0].toDos[0]);
+  displayProjects(projects);
 }
 
-function createToDoList() {
-  const toDoNodeList = document.querySelectorAll(".projectFormToDoInput");
-  console.log(toDoNodeList);
-  const toDoArray = Array.from(toDoNodeList);
-  const toDoValues = toDoArray.map((e) => e.value);
-  console.log(toDoValues);
+function displayProjects(projectsArray) {
+  for (let i = 0; i < projectsArray.length; i++) {
+    const projectContainer = document.createElement("div");
+    projectContainer.classList.add("project");
+    const projectHeader = document.createElement("div");
+    projectHeader.classList.add("projectHeader");
+    const projectTitle = document.createElement("p");
+    projectTitle.classList.add("name");
+    projectTitle.innerText = projectsArray[i].name;
+    const projectDueDate = document.createElement("p");
+    projectDueDate.classList.add("projectDueDate");
+    projectDueDate.innerText = `Due by: ${projectsArray[i].dueDate}`;
+    const toDosContainer = document.createElement("div");
+    toDosContainer.classList.add("toDos");
+
+    for (let j = 0; j < projectsArray[i].toDos.length; j++) {
+      const toDoN = projectsArray[i].toDos[j].name;
+      const toDoD = projectsArray[i].toDos[j].dueDate;
+      const toDoP = projectsArray[i].toDos[j].priority;
+
+      const toDoContainer = document.createElement("div");
+      toDoContainer.classList.add("todo");
+      const toDoName = document.createElement("p");
+      toDoName.classList.add("title");
+      toDoName.innerText = toDoN;
+      const toDoDueDate = document.createElement("p");
+      toDoDueDate.classList.add("toDoDueDate");
+      toDoDueDate.innerText = `Due by: ${toDoD}`;
+      const toDoPriority = document.createElement("p");
+      toDoPriority.innerText = toDoP;
+
+      toDoContainer.append(toDoName, toDoDueDate, toDoPriority);
+      toDosContainer.append(toDoContainer);
+    }
+    projectHeader.append(projectTitle, projectDueDate);
+    projectContainer.append(projectHeader, toDosContainer);
+    document.querySelector(".projectDisplay").append(projectContainer);
+  }
 }
 
 export { mainContainer, addUi, addProjectButton };
