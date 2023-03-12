@@ -148,9 +148,14 @@ body {
         gap: 10px;
       }
     }
-    .projectFormAddToDoButton {
+    .form-button,
+    .closeProjectFormButton {
       background-color: #3569da;
       color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      margin: 15px;
     }
     .closeProjectFormButton {
       position: absolute;

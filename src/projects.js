@@ -1,6 +1,7 @@
-export default class Project {
-  constructor(name) {
+class Project {
+  constructor(name, dueDate) {
     this.name = name;
+    this.dueDate = dueDate;
     this.toDos = [];
   }
 
@@ -15,3 +16,11 @@ export default class Project {
     }
   }
 }
+
+const projects = [];
+
+function addProject(project) {
+  projects.push(project);
+}
+
+export { Project, projects, addProject };
