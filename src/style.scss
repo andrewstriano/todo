@@ -1,5 +1,29 @@
 html {
-  background-color: red;
+  box-sizing: border-box;
+}
+.content {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
   height: 100vh;
-  width: 100vw;
+}
+.sideBar {
+  display: flex;
+  flex-direction: column;
+  .project {
+    text-align: center;
+    border: 1px solid black;
+    padding: 15px;
+  }
+  .projectDropDown {
+    display: flex;
+    justify-content: space-between;
+    button {
+      color: lightgrey;
+      background-color: white;
+      width: 25px;
+    }
+    button:hover {
+      background-color: blue;
+    }
+  }
 }
