@@ -1,3 +1,5 @@
+$gradient: linear-gradient(135deg, rgb(180, 35, 25), rgb(11, 69, 92));
+
 html {
   box-sizing: border-box;
 }
@@ -14,6 +16,15 @@ html {
     border: 1px solid black;
     padding: 15px;
   }
+  .project:hover {
+    background: $gradient;
+    color: white;
+    box-shadow: 2px 2px 3px rgba($color: #000000, $alpha: 0.6);
+    cursor: pointer;
+  }
+  .project:active {
+    box-shadow: none;
+  }
   .projectDropDown {
     display: flex;
     justify-content: space-between;
@@ -23,7 +34,13 @@ html {
       width: 25px;
     }
     button:hover {
-      background-color: blue;
+      background: $gradient;
+      color: white;
+      box-shadow: 2px 2px 3px rgba($color: #000000, $alpha: 0.6);
+      cursor: pointer;
+    }
+    button:active {
+      box-shadow: none;
     }
   }
 }
