@@ -5,6 +5,7 @@ html {
 }
 .content {
   display: grid;
+  position: relative;
   grid-template-columns: 1fr 3fr;
   height: 100vh;
 }
@@ -43,4 +44,19 @@ html {
       box-shadow: none;
     }
   }
+}
+.projectModal {
+  position: absolute;
+  inset: 0;
+  background-color: rgba($color: #000000, $alpha: 0.6);
+}
+.formContainer {
+  position: absolute;
+  inset: 10%;
+  background-color: antiquewhite;
+  border-radius: 15px;
+}
+
+.inactive {
+  display: none;
 }

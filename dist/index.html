@@ -17,7 +17,7 @@
           Projects
           <button class="add">+</button>
         </div>
-        <div class="projectContainer">
+        <div class="projectContainer inactive">
           <div class="project">Sample Project</div>
           <div class="project">Sample Project</div>
           <div class="project">Sample Project</div>
@@ -27,6 +27,23 @@
         <div class="project addProjectButton">Add Project</div>
       </div>
       <div class="main"></div>
+    </div>
+    <div class="projectModal inactive">
+      <div class="formContainer">
+        <form action="" id="projectForm">
+          <ul>
+            <li>
+              <label for="name">name</label>
+              <input type="text" id="name" />
+            </li>
+            <li>
+              <label for="dueDate">Due by</label>
+              <input type="date" id="dueDate" />
+            </li>
+            <li><button class="addTaskButton">Add Task</button></li>
+          </ul>
+        </form>
+      </div>
     </div>
     <script src="main.js"></script>
   </body>
