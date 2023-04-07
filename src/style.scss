@@ -56,7 +56,10 @@ html {
   background-color: antiquewhite;
   border-radius: 15px;
 }
-
+.isBlurred {
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+}
 .inactive {
   display: none;
 }
