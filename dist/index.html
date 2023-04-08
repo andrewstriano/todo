@@ -28,7 +28,7 @@
       </div>
       <div class="main"></div>
     </div>
-    <div class="projectModal">
+    <div class="projectModal inactive">
       <div class="formContainer">
         <h1>New Project</h1>
         <form action="" id="projectForm">
@@ -40,6 +40,12 @@
             <li>
               <label for="dueDate">Due by:</label>
               <input type="date" id="dueDate" />
+            </li>
+            <li>
+              <label for="priority">
+                Priority level (1 is most important):
+              </label>
+              <input type="number" id="priority" min="1" max="10" step="1" />
             </li>
             <li>
               <button class="addTaskButton" type="button">Add Task</button>

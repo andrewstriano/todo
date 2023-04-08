@@ -1,6 +1,6 @@
 import Task from "./tasks";
 
-class Project {
+export default class Project {
   constructor(name, dueDate, tasks, priority) {
     this.name = name;
     this.dueDate = dueDate;

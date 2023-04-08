@@ -1,3 +1,5 @@
+import Project from "./project";
+
 export const projectContainer = document.querySelector(".projectContainer");
 function expandProjectList() {
   projectContainer.classList.toggle("inactive");
@@ -47,12 +49,27 @@ addProjectButton.addEventListener("click", openModal);
 const projects = [];
 
 function createProject() {
-  let tasks = document.querySelectorAll(".task");
-  let v = [];
-  for (const value of tasks.values()) {
-    v.push(value);
+  let taskNodeList = document.querySelectorAll(".task");
+  let tasks = [];
+  for (let i = 0; i < taskNodeList.length; i++) {
+    const val = taskNodeList[i].value;
+    tasks.push(val);
   }
-  console.log((tasks));
+  let name = document.querySelector("#name").value;
+  let dueDate = document.querySelector("#dueDate").value;
+  let priority = document.querySelector("#priority").value;
+  let project = new Project(name, dueDate, tasks, priority);
+
+  projects.push(project);
+  createProjectSideBarButton(project);
+}
+
+function createProjectSideBarButton(project) {
+  let projectContainer = document.querySelector(".projectContainer");
+  let button = document.createElement("div");
+  button.classList.add("project");
+  button.innerText = project.name;
+  projectContainer.appendChild(button);
 }
 
 export const createProjectButton = document.querySelector(
