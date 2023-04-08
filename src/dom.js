@@ -64,11 +64,77 @@ function createProject() {
   createProjectSideBarButton(project);
 }
 
+function completeProject(event) {
+  let proj = event.target.project;
+  let index = projects.indexOf(proj);
+  projects.splice(index, 1);
+  event.target.parentNode.parentNode.remove();
+  console.log(projects);
+  refreshSideBarList();
+}
+
+function refreshSideBarList() {
+  document.querySelector(".projectContainer").innerHTML = "";
+  projects.forEach((project) => {
+    createProjectSideBarButton(project);
+  });
+}
+
+function completeTask(event) {
+  let index = event.target.index;
+  let project = event.target.project;
+  event.target.project.tasks.splice(index, 1);
+  event.target.parentNode.remove();
+}
+
+function displayProject(event) {
+  const project = event.target.project;
+  const displayContainer = document.createElement("div");
+  displayContainer.classList.add("display");
+
+  const heading = document.createElement("div");
+  heading.classList.add("projectHeading");
+
+  const title = document.createElement("h1");
+  title.innerText = project.name;
+
+  const dueDate = document.createElement("h2");
+  dueDate.innerText = project.dueDate;
+
+  const priority = document.createElement("h3");
+  priority.innerText = project.priority;
+
+  const completeProjectButton = document.createElement("button");
+  completeProjectButton.innerText = "X";
+  completeProjectButton.project = project;
+  completeProjectButton.addEventListener("click", completeProject);
+
+  const taskList = document.createElement("ol");
+  const tasks = project.tasks;
+
+  for (let i = 0; i < tasks.length; i++) {
+    const task = document.createElement("li");
+    const completeTaskButton = document.createElement("button");
+    completeTaskButton.innerText = "X";
+    completeTaskButton.project = project;
+    completeTaskButton.index = i;
+    completeTaskButton.addEventListener("click", completeTask);
+    task.innerText = tasks[i];
+    task.append(completeTaskButton);
+    taskList.appendChild(task);
+  }
+  heading.append(title, dueDate, priority, completeProjectButton);
+  displayContainer.append(heading, taskList);
+  document.querySelector(".main").append(displayContainer);
+  console.log(project);
+}
+
 function createProjectSideBarButton(project) {
-  let projectContainer = document.querySelector(".projectContainer");
-  let button = document.createElement("div");
+  const button = document.createElement("div");
   button.classList.add("project");
+  button.project = project;
   button.innerText = project.name;
+  button.addEventListener("click", displayProject);
   projectContainer.appendChild(button);
 }
 
