@@ -33,7 +33,7 @@ function createTaskInput() {
   const input = document.createElement("input");
   label.setAttribute("for", "task");
   label.innerText = "New Task:";
-  input.setAttribute("id", "task");
+  input.setAttribute("class", "task");
   input.setAttribute("type", "text");
   li.append(label, input);
   list.insertBefore(li, addTaskButton.parentNode);
@@ -43,3 +43,19 @@ addTaskButton.addEventListener("click", createTaskInput);
 
 export const addProjectButton = document.querySelector(".addProjectButton");
 addProjectButton.addEventListener("click", openModal);
+
+const projects = [];
+
+function createProject() {
+  let tasks = document.querySelectorAll(".task");
+  let v = [];
+  for (const value of tasks.values()) {
+    v.push(value);
+  }
+  console.log((tasks));
+}
+
+export const createProjectButton = document.querySelector(
+  ".createProjectButton"
+);
+createProjectButton.addEventListener("click", createProject);
