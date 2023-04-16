@@ -1,4 +1,5 @@
 import Project from "./project";
+import Task from "./tasks";
 
 export const projectContainer = document.querySelector(".projectContainer");
 function expandProjectList() {
@@ -28,53 +29,64 @@ function openModal() {
   });
 }
 export const addTaskButton = document.querySelector(".addTaskButton");
-let taskCount = 0;
+export const submitTaskButton = document.querySelector(".submitTaskButton");
+let tasks = [];
 function createTaskInput() {
   const list = document.querySelector("#formList");
   const li = document.createElement("li");
-  const taskNameLabel = document.createElement("label");
-  const taskName = document.createElement("input");
-  taskNameLabel.setAttribute("for", "task");
-  taskNameLabel.innerText = "Task Name:";
-  taskName.setAttribute("class", "task");
-  taskName.setAttribute("type", "text");
-  taskName.dataset.taskCount = taskCount;
+  li.classList.add("taskInputs");
 
-  const taskDueDateLabel = document.createElement("label");
-  const taskDueDate = document.createElement("input");
-  taskDueDateLabel.setAttribute("for", "taskDueDate");
-  taskDueDateLabel.innerText = "Task Due:";
-  taskDueDate.setAttribute("class", "taskDueDate");
-  taskDueDate.setAttribute("type", "date");
-  taskDueDate.dataset.taskCount = taskCount;
+  const inputs = [
+    { description: "Task Name", name: "task", type: "text", class: "task" },
+    {
+      description: "Task Due",
+      name: "taskDueDate",
+      type: "date",
+      class: "taskDueDate",
+    },
+    {
+      description: "Task Priority",
+      name: "taskPriority",
+      type: "number",
+      class: "taskPriority",
+    },
+    {
+      description: "Task Description",
+      name: "description",
+      type: "text",
+      class: "description",
+    },
+  ];
 
-  const taskPriorityLabel = document.createElement("label");
-  const taskPriority = document.createElement("input");
-  taskPriorityLabel.setAttribute("for", "taskPriority");
-  taskPriorityLabel.innerText = "Task Priority:";
-  taskPriority.setAttribute("class", "taskPriority");
-  taskPriority.setAttribute("type", "number");
-  taskPriority.dataset.taskCount = taskCount;
+  inputs.forEach((x) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    label.setAttribute("for", x.name);
+    label.innerText = x.description;
+    input.setAttribute("class", x.class);
+    input.setAttribute("type", x.type);
 
-  taskNameLabel.setAttribute("for", "task");
-  taskNameLabel.innerText = "Task Name:";
-  taskName.setAttribute("class", "task");
-  taskName.setAttribute("type", "text");
-  taskName.dataset.taskCount = taskCount;
+    li.append(label, input);
+  });
 
-  li.append(
-    taskNameLabel,
-    taskName,
-    taskDueDateLabel,
-    taskDueDate,
-    taskPriorityLabel,
-    taskPriority
-  );
   list.insertBefore(li, addTaskButton.parentNode);
-  taskCount++;
-  console.log(taskCount);
+  addTaskButton.classList.toggle("inactive");
+  submitTaskButton.classList.toggle("inactive");
 }
 
+function submitTask() {
+  const name = document.querySelector(".task").value;
+  const dueDate = document.querySelector(".taskDueDate").value;
+  const priority = document.querySelector(".taskPriority").value;
+  const description = document.querySelector(".description").value;
+  const task = new Task(name, dueDate, description, priority);
+  tasks.push(task);
+  document.querySelector(".taskInputs").remove();
+  addTaskButton.classList.toggle("inactive");
+  submitTaskButton.classList.toggle("inactive");
+  previewTask(task);
+}
+submitTaskButton.addEventListener("click", submitTask);
 addTaskButton.addEventListener("click", createTaskInput);
 
 export const addProjectButton = document.querySelector(".addProjectButton");
@@ -87,6 +99,23 @@ function completeTask(event) {
   const project = event.target.project;
   event.target.project.tasks.splice(index, 1);
   event.target.parentNode.remove();
+}
+function previewTask(task) {
+  const name = document.createElement("p");
+  const dueDate = document.createElement("p");
+  const priority = document.createElement("p");
+  const description = document.createElement("p");
+  const li = document.createElement("li");
+  const list = document.querySelector("#formList");
+  const taskNumber = document.createElement("p");
+
+  taskNumber.innerText = `Task Number: ${tasks.length}`;
+  name.innerText = `Name: ${task.name}`;
+  dueDate.innerText = `Due: ${task.dueDate}`;
+  priority.innerText = `Priority: ${task.priority}`;
+  description.innerText = `Description: ${task.description}`;
+  li.append(taskNumber, name, dueDate, priority, description);
+  list.insertBefore(li, addTaskButton.parentNode);
 }
 
 function displayProject(event) {
@@ -121,7 +150,7 @@ function displayProject(event) {
     completeTaskButton.project = project;
     completeTaskButton.index = i;
     completeTaskButton.addEventListener("click", completeTask);
-    task.innerText = tasks[i];
+    task.innerText = tasks[i].name;
     task.append(completeTaskButton);
     taskList.appendChild(task);
   }
@@ -140,19 +169,23 @@ function createProjectSideBarButton(project) {
 }
 
 function createProject() {
-  const taskNodeList = document.querySelectorAll(".task");
-  const tasks = [];
-  for (let i = 0; i < taskNodeList.length; i++) {
-    const val = taskNodeList[i].value;
-    tasks.push(val);
-  }
-  const name = document.querySelector("#name").value;
-  const dueDate = document.querySelector("#dueDate").value;
-  const priority = document.querySelector("#priority").value;
-  const project = new Project(name, dueDate, tasks, priority);
+  const nameInput = document.querySelector("#name");
+  const dueDateInput = document.querySelector("#dueDate");
+  const priorityInput = document.querySelector("#priority");
+  const project = new Project(
+    nameInput.value,
+    dueDateInput.value,
+    tasks,
+    priorityInput.value
+  );
 
   projects.push(project);
   createProjectSideBarButton(project);
+  closeModal();
+  nameInput.value = "";
+  dueDateInput.value = "";
+  priorityInput.value = "";
+  tasks = [];
 }
 
 function refreshSideBarList() {
