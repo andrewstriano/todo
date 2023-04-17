@@ -15,6 +15,19 @@ function closeModal() {
   modalContainer.classList.remove("active");
   modalContainer.classList.add("inactive");
   content.classList.remove("isBlurred");
+  emptyModal();
+}
+
+function emptyModal() {
+  const previews = document.querySelectorAll(".taskPreview");
+  const nameInput = document.querySelector("#name");
+  const dueDateInput = document.querySelector("#dueDate");
+  const priorityInput = document.querySelector("#priority");
+  previews.forEach((e) => e.remove());
+  nameInput.value = "";
+  dueDateInput.value = "";
+  priorityInput.value = "";
+  tasks = [];
 }
 
 function openModal() {
@@ -106,6 +119,7 @@ function previewTask(task) {
   const priority = document.createElement("p");
   const description = document.createElement("p");
   const li = document.createElement("li");
+  li.classList.add("taskPreview");
   const list = document.querySelector("#formList");
   const taskNumber = document.createElement("p");
 
@@ -141,16 +155,16 @@ function displayProject(event) {
   completeProjectButton.addEventListener("click", completeProject);
 
   const taskList = document.createElement("ol");
-  const tasks = project.tasks;
+  const taskArray = project.tasks;
 
-  for (let i = 0; i < tasks.length; i++) {
+  for (let i = 0; i < taskArray.length; i++) {
     const task = document.createElement("li");
     const completeTaskButton = document.createElement("button");
     completeTaskButton.innerText = "X";
     completeTaskButton.project = project;
     completeTaskButton.index = i;
     completeTaskButton.addEventListener("click", completeTask);
-    task.innerText = tasks[i].name;
+    task.innerText = `Name: ${taskArray[i].name}, Due: ${taskArray[i].dueDate}, Priority: ${taskArray[i].priority}, description: ${taskArray[i].description}`;
     task.append(completeTaskButton);
     taskList.appendChild(task);
   }
@@ -172,20 +186,17 @@ function createProject() {
   const nameInput = document.querySelector("#name");
   const dueDateInput = document.querySelector("#dueDate");
   const priorityInput = document.querySelector("#priority");
+  const taskList = tasks;
   const project = new Project(
     nameInput.value,
     dueDateInput.value,
-    tasks,
+    taskList,
     priorityInput.value
   );
 
   projects.push(project);
   createProjectSideBarButton(project);
   closeModal();
-  nameInput.value = "";
-  dueDateInput.value = "";
-  priorityInput.value = "";
-  tasks = [];
 }
 
 function refreshSideBarList() {
